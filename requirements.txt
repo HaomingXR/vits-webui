@@ -1,3 +1,9 @@
+# Machine Learning and Deep Learning
+torch==2.0.1
+--find-links https://download.pytorch.org/whl/cu118/torch_stable.html
+
+audonnx
+
 # Core scientific and computation libraries
 numpy==1.23.3
 scipy
@@ -22,7 +28,7 @@ ko_pron
 indic_transliteration
 num_thai
 opencc
-fasttext
+fasttext-wheel
 fastlid
 langid
 phonemizer==3.2.1
@@ -33,10 +39,6 @@ unidic-lite
 g2p_en
 sentencepiece==0.1.99
 jaconv
-
-# Machine Learning and Deep Learning
-torch
-audonnx
 
 # Web and API services
 flask==2.2.3

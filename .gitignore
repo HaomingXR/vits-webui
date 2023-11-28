@@ -1,11 +1,15 @@
-**/__pycache__
+__pycache__
+venv
+config.yaml
+
 /Model/
 /logs/
 /cache/
 /upload/
 /vits/text/chinese_dialect_lexicons/
 /vits/bert/prosody_model.pt
-config.yml
+
 **/pytorch_model.bin
 **/spm.model
+
 phrases_dict.txt

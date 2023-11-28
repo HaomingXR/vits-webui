@@ -1,103 +1,80 @@
-import os
-import sys
-
 import torch
+import os
 
-JSON_AS_ASCII = False
-
-MAX_CONTENT_LENGTH = 5242880
-
-# Flask debug mode
+# Debug Mode for Flask
 DEBUG = False
 
-# Server port
-PORT = 23456
+# Local Server port
+PORT = 8888
 
-# Absolute path of vits-simple-api
+# Path of this Project
 ABS_PATH = os.path.dirname(os.path.realpath(__file__))
 
-# Upload path
-UPLOAD_FOLDER = ABS_PATH + "/upload"
+# Paths to Concate at Runtime
+AUTO_ASSIGN = ['UPLOAD_FOLDER', 'CACHE_PATH', 'LOGS_PATH']
 
-# Cahce path
-CACHE_PATH = ABS_PATH + "/cache"
+# Upload Path
+UPLOAD_FOLDER = "upload"
 
-# Logs path
-LOGS_PATH = ABS_PATH + "/logs"
+# Cahce Path
+CACHE_PATH = "cache"
 
-# Set the number of backup log files to keep. 
-LOGS_BACKUPCOUNT = 30
+# Logs Path
+LOGS_PATH = "logs"
 
-# If CLEAN_INTERVAL_SECONDS <= 0, the cleaning task will not be executed.
-CLEAN_INTERVAL_SECONDS = 3600
+# Number of Log Files to Backup
+LOGS_BACKUPCOUNT = 10
 
-# save audio to CACHE_PATH
+# The interval to clear the upload and cache folders
+    # If the value <= 0, the cleaning won't be performed
+CLEAN_INTERVAL_SECONDS = 6000
+
+# Save Audio to CACHE_PATH
 SAVE_AUDIO = False
 
-# zh ja ko en... If it is empty, it will be read based on the text_cleaners specified in the config.json.
+# If left empty, it will be determined from the config.json
 LANGUAGE_AUTOMATIC_DETECT = []
 
-# Set to True to enable API Key authentication
+# Set to True to Enable API Key Authentication
 API_KEY_ENABLED = False
-
-# API_KEY is required for authentication
+# API_KEY is Required for Authentication (will be generated if left empty)
 API_KEY = ""
 
-# WTForms CSRF 保护
-SECRET_KEY = ""
+# Enable the Admin Backend Functionality
+IS_ADMIN_ENABLED = False
 
-# Control whether to enable the admin backend functionality
-IS_ADMIN_ENABLED = True  # Set to True to enable the admin backend, set to False to disable it
+# Define the Route for the Admin Backend
+ADMIN_ROUTE = '/admin'
 
-# Define the route for the admin backend
-ADMIN_ROUTE = '/admin' # You can change this to your desired route
+# DEBUG / INFO / WARNING / ERROR / CRITICAL
+LOGGING_LEVEL = "INFO"
 
-# logging_level:DEBUG/INFO/WARNING/ERROR/CRITICAL
-LOGGING_LEVEL = "DEBUG"
-
-# Language identification library. Optional fastlid, langid
+# Language Identification Library
+    # fastlid / langid
 LANGUAGE_IDENTIFICATION_LIBRARY = "langid"
 
-# To use the english_cleaner, you need to install espeak and provide the path of libespeak-ng.dll as input here.
-# If ESPEAK_LIBRARY is set to empty, it will be read from the environment variable.
-# For windows : "C:/Program Files/eSpeak NG/libespeak-ng.dll"
-ESPEAK_LIBRARY = ""
+# To use the english_cleaner, you need to install espeak and enter the path to the libespeak-ng.dll
+# ESPEAK_LIBRARY = ""
 
-# Fill in the model path here
-MODEL_LIST = [
-    # VITS
-    # [ABS_PATH + "/Model/Nene_Nanami_Rong_Tang/1374_epochs.pth", ABS_PATH + "/Model/Nene_Nanami_Rong_Tang/config.json"],
-    # [ABS_PATH + "/Model/Zero_no_tsukaima/1158_epochs.pth", ABS_PATH + "/Model/Zero_no_tsukaima/config.json"],
-    # [ABS_PATH + "/Model/g/G_953000.pth", ABS_PATH + "/Model/g/config.json"],
-    # [ABS_PATH + "/Model/vits_chinese/vits_bert_model.pth", ABS_PATH + "/Model/vits_chinese/bert_vits.json"],
-    # HuBert-VITS (Need to configure HUBERT_SOFT_MODEL)
-    # [ABS_PATH + "/Model/louise/360_epochs.pth", ABS_PATH + "/Model/louise/config.json"],
-    # W2V2-VITS (Need to configure DIMENSIONAL_EMOTION_NPY)
-    # [ABS_PATH + "/Model/w2v2-vits/1026_epochs.pth", ABS_PATH + "/Model/w2v2-vits/config.json"],
-    # Bert-VITS2
-    # [ABS_PATH + "/Model/bert_vits2/G_9000.pth", ABS_PATH + "/Model/bert_vits2/config.json"],
-]
+# === VITS ===
+    # Fill in the model path here
+MODEL_LIST = []
 
-# hubert-vits: hubert soft model
-HUBERT_SOFT_MODEL = ABS_PATH + "/Model/hubert-soft-0d54a1f4.pt"
+# === hubert-vits ===
+# HUBERT_SOFT_MODEL = "/Model/foo.pt"
 
-# w2v2-vits: Dimensional emotion npy file
-# load single npy: ABS_PATH+"/all_emotions.npy
-# load mutiple npy: [ABS_PATH + "/emotions1.npy", ABS_PATH + "/emotions2.npy"]
-# load mutiple npy from folder: ABS_PATH + "/Model/npy"
-DIMENSIONAL_EMOTION_NPY = ABS_PATH + "/Model/npy"
-
-# w2v2-vits: Need to have both `model.onnx` and `model.yaml` files in the same path.
-# DIMENSIONAL_EMOTION_MODEL = ABS_PATH + "/Model/model.yaml"
+# === w2v2-vits ===
+    # Need to have both `model.onnx` and `model.yaml` files in the same path.
+# DIMENSIONAL_EMOTION_MODEL = "Model/model.yaml"
+    #Dimensional emotion npy file
+        # load single npy: "all_emotions.npy"
+        # load mutiple npy: ["emotions1.npy", "emotions2.npy"]
+# DIMENSIONAL_EMOTION_NPY = "Model/npy"
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# VITS
 DYNAMIC_LOADING = False
 
-"""
-Default parameter
-"""
 
 ID = 0
 
@@ -107,16 +84,16 @@ LANG = "auto"
 
 LENGTH = 1
 
-NOISE = 0.33
+NOISE = 0.25
 
-NOISEW = 0.4
+NOISEW = 0.25
 
-# 长文本分段阈值，segment_size<=0表示不分段.
-# Batch processing threshold. Text will not be processed in batches if segment_size<=0
-SEGMENT_SIZE = 50
+# Batch-Processing Threshold
+# Will not be processed in batches if value <= 0
+SEGMENT_SIZE = 32
 
-# Bert_VITS2
-SDP_RATIO = 0.2
-LENGTH_ZH = 0
-LENGTH_JA = 0
-LENGTH_EN = 0
+# === Bert_VITS2 ===
+# SDP_RATIO = 0.2
+# LENGTH_ZH = 0
+# LENGTH_JA = 0
+# LENGTH_EN = 0
