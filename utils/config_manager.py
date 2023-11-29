@@ -164,6 +164,8 @@ def init_config():
 
         logging.info("config.yaml not Found. Creating a new config based on default_config.py\n")
 
+    global_config.update({'ABS_PATH': config.ABS_PATH})
+
     if check_is_none(global_config.API_KEY):
         if global_config.API_KEY_ENABLED is True:
             secret_key = generate_secret_key()
