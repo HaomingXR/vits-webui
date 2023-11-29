@@ -13,6 +13,9 @@ from utils.data_utils import check_is_none
 import config
 YAML_CONFIG_FILE = os.path.join(config.ABS_PATH, 'config.yaml')
 
+# Paths to Concate at Runtime
+AUTO_ASSIGN = ['UPLOAD_FOLDER', 'CACHE_PATH', 'LOGS_PATH']
+
 
 class Config(dict):
     def __init__(self, *args, **kwargs):
@@ -27,7 +30,7 @@ class Config(dict):
         self[key] = value
 
 
-logging.getLogger().setLevel(logging.INFO)
+logging.getLogger().setLevel(config.LOGGING_LEVEL)
 global_config = Config()
 
 
@@ -113,11 +116,35 @@ def generate_random_password(length=16):
     return password
 
 
+def find_all_models(abs_path):
+    models_folder = os.path.join(abs_path, 'models')
+    model_paths = []
+
+    for folder in os.listdir(models_folder):
+        if os.path.isdir(os.path.join(models_folder, folder)):
+            files = os.listdir(os.path.join(models_folder, folder))
+            assert len(files) == 2 # .pth & .json
+
+            model = []
+
+            if '.json' in files[0]:
+                model.append(os.path.join(folder, files[1]))
+                model.append(os.path.join(folder, files[0]))
+            else:
+                model.append(os.path.join(folder, files[0]))
+                model.append(os.path.join(folder, files[1]))
+
+            model_paths.append(model)
+        else:
+            logging.warning(f'Non-folder {folder} found...\n')
+
+    return model_paths
+
 def init_config():
     global global_config
 
     model_path = ["MODEL_LIST", "HUBERT_SOFT_MODEL", "DIMENSIONAL_EMOTION_NPY", "DIMENSIONAL_EMOTION_MODEL"]
-    default_parameter = ["ID", "FORMAT", "LANG", "LENGTH", "NOISE", "NOISEW", "SEGMENT_SIZE", "SDP_RATIO", "LENGTH_ZH", "LENGTH_JA", "LENGTH_EN"]
+    default_parameter = ["ID", "FORMAT", "LANG", "LENGTH", "NOISE", "NOISEW", "SEGMENT_SIZE",] # "SDP_RATIO", "LENGTH_ZH", "LENGTH_JA", "LENGTH_EN"
 
     try:
         global_config.update(load_yaml_config())
@@ -137,11 +164,6 @@ def init_config():
                 global_config[key] = value
 
         logging.info("config.yaml not Found. Creating a new config based on default_config.py\n")
-
-    if 'AUTO_ASSIGN' in list(global_config.keys()):
-        for path in global_config['AUTO_ASSIGN']:
-            global_config[path] = os.path.join(global_config['ABS_PATH'], global_config[path])
-        del global_config['AUTO_ASSIGN']
 
     if check_is_none(global_config.API_KEY):
         if global_config.API_KEY_ENABLED is True:
@@ -163,7 +185,13 @@ def init_config():
         global_config["users"] = {}
         global_config["users"]["admin"] = {f"admin": User(1, random_username, random_password)}
 
+    global_config['model_config']['model_list'] = find_all_models(global_config['ABS_PATH'])
+
     save_yaml_config(global_config)
 
+    # Set up paths at runtime to avoid hardcode
+    for path in AUTO_ASSIGN:
+        global_config[path] = os.path.join(global_config['ABS_PATH'], global_config[path])
+        logging.debug(f'{path}: {global_config[path]}')
 
 init_config()

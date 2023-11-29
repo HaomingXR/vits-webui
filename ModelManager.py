@@ -223,16 +223,16 @@ class ModelManager(Subject):
     def load_model(self, model_path: str, config_path: str):
         try:
             model_path = os.path.normpath(model_path)
-            if model_path.startswith('Model'):
+            if model_path.startswith('models'):
                 model_path = os.path.join(config.ABS_PATH, model_path)
             else:
-                model_path = os.path.join(config.ABS_PATH, 'Model', model_path)
+                model_path = os.path.join(config.ABS_PATH, 'models', model_path)
 
             config_path = os.path.normpath(config_path)
-            if config_path.startswith('Model'):
+            if config_path.startswith('models'):
                 config_path = os.path.join(config.ABS_PATH, config_path)
             else:
-                config_path = os.path.join(config.ABS_PATH, 'Model', config_path)
+                config_path = os.path.join(config.ABS_PATH, 'models', config_path)
 
             model_data = self._load_model_from_path(model_path, config_path)
             model_id = model_data["model_id"]
@@ -445,7 +445,7 @@ class ModelManager(Subject):
         return emotion_reference
 
     def scan_path(self):
-        folder_path = os.path.join(config.ABS_PATH, 'Model')
+        folder_path = os.path.join(config.ABS_PATH, 'models')
         pth_files = glob.glob(folder_path + "/**/*.pth", recursive=True)
         all_paths = []
         unload_paths = []

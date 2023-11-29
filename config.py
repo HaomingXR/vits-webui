@@ -10,9 +10,6 @@ PORT = 8888
 # Path of this Project
 ABS_PATH = os.path.dirname(os.path.realpath(__file__))
 
-# Paths to Concate at Runtime
-AUTO_ASSIGN = ['UPLOAD_FOLDER', 'CACHE_PATH', 'LOGS_PATH']
-
 # Upload Path
 UPLOAD_FOLDER = "upload"
 
@@ -47,7 +44,7 @@ IS_ADMIN_ENABLED = False
 ADMIN_ROUTE = '/admin'
 
 # DEBUG / INFO / WARNING / ERROR / CRITICAL
-LOGGING_LEVEL = "INFO"
+LOGGING_LEVEL = "ERROR"
 
 # Language Identification Library
     # fastlid / langid
