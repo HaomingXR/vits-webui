@@ -20,17 +20,17 @@ def classify_language(text: str, target_languages: list = None) -> str:
     if module == "fastlid" or module == "fasttext":
         from fastlid import fastlid, supported_langs
         classifier = fastlid
-        if target_languages != None:
+        if target_languages is not None:
             target_languages = [lang for lang in target_languages if lang in supported_langs]
             fastlid.set_languages = target_languages
     elif module == "langid":
         import langid
         classifier = langid.classify
-        if target_languages != None:
+        if target_languages is not None:
             target_languages = [lang for lang in target_languages if lang in langid_languages]
             langid.set_languages(target_languages)
     else:
-        raise ValueError(f"Wrong LANGUAGE_IDENTIFICATION_LIBRARY in config.py")
+        raise ValueError("Wrong LANGUAGE_IDENTIFICATION_LIBRARY in config.py")
 
     lang = classifier(text)[0]
 

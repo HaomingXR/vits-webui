@@ -3,7 +3,6 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 from bert_vits2 import commons
-from torch.nn.utils import weight_norm, remove_weight_norm
 
 
 class LayerNorm(nn.Module):
@@ -245,7 +244,7 @@ class MultiHeadAttention(nn.Module):
         return ret
 
     def _get_relative_embeddings(self, relative_embeddings, length):
-        max_relative_position = 2 * self.window_size + 1
+
         # Pad first before slice to avoid using cond ops.
         pad_length = max(length - (self.window_size + 1), 0)
         slice_start_position = max((self.window_size + 1) - length, 0)

@@ -94,7 +94,7 @@ class ModelManager(Subject):
             f"[{ModelType.BERT_VITS2.value}] {self.bert_vits2_speakers_count} speakers")
         self.logger.info(f"{self.speakers_count} speakers in total.")
         if self.speakers_count == 0:
-            self.logger.warning(f"No model was loaded.")
+            self.logger.warning("No model was loaded.")
 
     @property
     def vits_speakers(self):
@@ -281,7 +281,7 @@ class ModelManager(Subject):
 
                 state = True
                 self.notify("model_unloaded", model_manager=self)
-                self.logger.info(f"Unloading success.")
+                self.logger.info("Unloading success.")
         except Exception as e:
             self.logger.info(f"Unloading failed. {e}")
             state = False
@@ -408,7 +408,7 @@ class ModelManager(Subject):
             model_type = ModelType.BERT_VITS2
             return model_type
 
-        if symbols != None:
+        if symbols is not None:
             if not emotion_embedding:
                 mode_type = ModelType.VITS
             else:

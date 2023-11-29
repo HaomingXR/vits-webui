@@ -1,7 +1,5 @@
-import sys
 
 import torch
-from transformers import AutoModelForMaskedLM, AutoTokenizer
 
 from utils.config_manager import global_config as config
 from bert_vits2.text.japanese import text2sep_kata

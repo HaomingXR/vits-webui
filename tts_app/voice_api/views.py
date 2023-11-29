@@ -220,7 +220,7 @@ def voice_w2v2_api():
         use_streaming = get_param(request_data, 'streaming', False, bool)
     except Exception as e:
         logger.error(f"[{ModelType.W2V2_VITS.value}] {e}")
-        return make_response(f"parameter error", 400)
+        return make_response("parameter error", 400)
 
     logger.info(f"[{ModelType.W2V2_VITS.value}] id:{id} format:{format} lang:{lang} "
                 f"length:{length} noise:{noise} noisew:{noisew} emotion:{emotion} segment_size:{segment_size}")
@@ -345,7 +345,7 @@ def ssml_api():
         ssml = request_data.get("ssml")
     except Exception as e:
         logger.info(f"[ssml] {e}")
-        return make_response(jsonify({"status": "error", "message": f"parameter error"}), 400)
+        return make_response(jsonify({"status": "error", "message": "parameter error"}), 400)
 
     logger.debug(ssml)
     voice_tasks, format = tts_manager.parse_ssml(ssml)
@@ -510,7 +510,7 @@ def check():
         return res
 
     if check_is_none(id):
-        logger.info(f"[check] speaker id is empty")
+        logger.info("[check] speaker id is empty")
         return make_response(jsonify({"status": "error", "message": "speaker id is empty"}), 400)
 
     model_type = ModelType(model_type_str)

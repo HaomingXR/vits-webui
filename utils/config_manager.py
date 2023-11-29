@@ -182,7 +182,7 @@ def init_config():
             f"Please do NOT share this information...\n\n")
 
         global_config["users"] = {}
-        global_config["users"]["admin"] = {f"admin": User(1, random_username, random_password)}
+        global_config["users"]["admin"] = {"admin": User(1, random_username, random_password)}
 
     global_config['model_config']['model_list'] = find_all_models(global_config['ABS_PATH'])
 

@@ -324,7 +324,7 @@ class TTSManager(Observer):
         target_model_id = int(self.get_model_id(ModelType.VITS, state["target_id"]))
 
         if original_model_id != target_model_id:
-            raise ValueError(f"speakers are in diffrent VITS Model")
+            raise ValueError("speakers are in diffrent VITS Model")
 
         model = self.get_model(ModelType.VITS, state["original_id"])
         state["original_id"] = int(self.get_real_id(ModelType.VITS, state["original_id"]))

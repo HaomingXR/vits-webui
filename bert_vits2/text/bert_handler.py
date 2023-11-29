@@ -90,7 +90,7 @@ class BertHandler:
                     break
                 except Exception as e:
                     logging.error(f"Failed loading {model_path}. {e}")
-                    logging.info(f"Trying to download.")
+                    logging.info("Trying to download.")
                     if bert_model_name == "DEBERTA_V3_LARGE" and not os.path.exists(
                             os.path.join(model_path, "spm.model")):
                         self._download_model("SPM", os.path.join(model_path, "spm.model"))
