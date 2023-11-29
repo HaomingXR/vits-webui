@@ -1,5 +1,5 @@
-from ModelManager import ModelManager
-from TTSManager import TTSManager
+from model_manager import ModelManager
+from tts_manager import TTSManager
 from utils.config_manager import global_config
 
 model_manager = ModelManager()

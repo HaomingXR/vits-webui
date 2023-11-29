@@ -6,15 +6,15 @@ from utils.config_manager import global_config as config
 from logging.handlers import TimedRotatingFileHandler
 
 logzero.loglevel(logging.WARNING)
-logger = logging.getLogger("vits-simple-api")
-level = getattr(config, "LOGGING_LEVEL", "DEBUG")
-level_dict = {'DEBUG': logging.DEBUG, 'INFO': logging.INFO, 'WARNING': logging.WARNING, 'ERROR': logging.ERROR,
-              'CRITICAL': logging.CRITICAL}
+logger = logging.getLogger("vits-webui")
+
+level = getattr(config, "LOGGING_LEVEL", "CRITICAL")
+level_dict = {'DEBUG': logging.DEBUG, 'INFO': logging.INFO, 'WARNING': logging.WARNING, 'ERROR': logging.ERROR, 'CRITICAL': logging.CRITICAL}
+
 logging.getLogger().setLevel(level_dict[level])
 
 # formatter = logging.Formatter('%(levelname)s:%(name)s %(message)s')
-formatter = logging.Formatter('%(asctime)s [%(levelname)s] [%(module)s.%(funcName)s:%(lineno)d] %(message)s',
-                              datefmt='%Y-%m-%d %H:%M:%S')
+formatter = logging.Formatter('%(asctime)s [%(levelname)s] [%(module)s.%(funcName)s:%(lineno)d] %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 os.makedirs(config.LOGS_PATH, exist_ok=True)
 log_file = os.path.join(config.LOGS_PATH, 'latest.log')

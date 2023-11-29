@@ -30,7 +30,6 @@ class Config(dict):
         self[key] = value
 
 
-logging.getLogger().setLevel(config.LOGGING_LEVEL)
 global_config = Config()
 
 
