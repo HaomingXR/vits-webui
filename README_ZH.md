@@ -45,7 +45,10 @@ venv\scripts\activate
 ```
 
 #### 可攜式安裝
-- [下載](https://www.python.org/downloads/) 自帶的 Python 系統 **Windows Embeddable Package** 
+- 下載 [**Windows Embeddable Package**](https://www.python.org/downloads/)
+- 編輯 `python3<version>._pth`
+- 把 `import site` 取消註解
+- 下載並執行 [get-pip.py](https://bootstrap.pypa.io/get-pip.py) 以安裝 `pip`
 
 ### 3. 安裝 Python 資源
 > 如果使用不同的 CUDA 版本或不是使用 Nvidia 顯示卡，編輯 `requirements.txt`
@@ -117,7 +120,7 @@ GET http://127.0.0.1:8888/voice/vits?text=prompt
 | ------------ | -------- | ------------------ | ----- | ----- |
 | text         | true     |                    | str   | 所述說的文字 |
 | id           | false    | From `config.yaml` | int   | 講者 ID |
-| format       | false    | From `config.yaml` | str   | wav / ogg / mp3 / flac                                                            |
+| format       | false    | From `config.yaml` | str   | wav / ogg / mp3 / flac |
 | lang         | false    | From `config.yaml` | str   | 文字的語言 |
 | length       | false    | From `config.yaml` | float | 語音長度 |
 | noise        | false    | From `config.yaml` | float | 語音的隨機強度 |
@@ -133,7 +136,3 @@ GET http://127.0.0.1:8888/voice/vits?text=prompt
 - **MoeGoe**: https://github.com/CjangCjengh/MoeGoe
 - **vits-uma-genshin-honkai**: https://huggingface.co/spaces/zomehwh/vits-uma-genshin-honkai
 - **vits-models**: https://huggingface.co/spaces/zomehwh/vits-models
-
-
-# 特別感謝所有原參與者
-<img src="https://contrib.rocks/image?repo=artrajz/vits-simple-api"/></a>

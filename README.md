@@ -23,7 +23,7 @@ Also comes with API supports to interact with other processes.</p>
 - [x] Removed all Docker related stuffs...
 - [x] By default, only supports VITS models. You will need to edit the `config.py` and some other scripts to use VITS2, etc.
 
-> Some original features might me missing!
+> Some original features might be missing...
 
 
 ## Deployment
@@ -46,8 +46,10 @@ venv\scripts\activate
 ```
 
 #### Portable Installation
-- [Download](https://www.python.org/downloads/) a self-contained Python runtime by using **Windows Embeddable Package** 
-- You need to edit the files to enable `pip` to install required packages
+- [Download](https://www.python.org/downloads/) the self-contained Python runtime, **Windows Embeddable Package**
+- Open the `python3<version>._pth` file *(with a text editor)*
+- Uncomment the `import site` line
+- Then, download and run [get-pip.py](https://bootstrap.pypa.io/get-pip.py) to install `pip`
 
 ### 3. Install Python Dependencies
 > Edit `requirements.txt` if using other CUDA versions, or not using Nvidia GPU
@@ -133,7 +135,7 @@ GET http://127.0.0.1:8888/voice/vits?text=prompt
 | segment_size | false    | From `config.yaml` | int   | Divide the text into paragraphs based on punctuation marks                        |
 | streaming    | false    | false              | bool  | Stream synthesized speech with faster initial response                            |
 
-> Check the original repo for more
+> Check the original repo for more info
 
 
 # Resources
@@ -141,7 +143,3 @@ GET http://127.0.0.1:8888/voice/vits?text=prompt
 - **MoeGoe**: https://github.com/CjangCjengh/MoeGoe
 - **vits-uma-genshin-honkai**: https://huggingface.co/spaces/zomehwh/vits-uma-genshin-honkai
 - **vits-models**: https://huggingface.co/spaces/zomehwh/vits-models
-
-
-# Special Thanks to All the Original Contributors
-<img src="https://contrib.rocks/image?repo=artrajz/vits-simple-api"/></a>
